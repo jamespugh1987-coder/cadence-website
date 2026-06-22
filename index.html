@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tyre Tracks — Family Cycle Touring</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="_shared.css">
+<style>
+  .mission { background: var(--forest); color: #e8f2eb; padding: 4rem 5vw; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 5rem; align-items: center; }
+  .mission-eyebrow { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sun); margin-bottom: 1rem; }
+  .mission h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem, 6vw, 5.5rem); line-height: 0.95; letter-spacing: 0.02em; margin-bottom: 1.5rem; }
+  .mission h2 em { font-style: normal; color: var(--sun); }
+  .mission p { font-size: 1.15rem; line-height: 1.7; color: #a8c8b0; font-weight: 300; max-width: 42ch; }
+  .mission-cta { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 2rem; padding: 0.75rem 1.75rem; background: var(--sun); color: var(--ink); font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; font-weight: 700; transition: background 0.2s; }
+  .mission-cta:hover { background: #f0b030; }
+  .mission-visual { display: flex; align-items: center; justify-content: center; }
+  .mission-visual svg { width: 100%; max-width: 360px; }
+
+  .featured-tour { background: var(--sky); padding: 4rem 5vw; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
+  .featured-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: start; }
+  .featured-label { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--forest); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+  .featured-label::before { content: ''; display: inline-block; width: 2rem; height: 2px; background: var(--forest); }
+  .featured-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 4rem); line-height: 1; letter-spacing: 0.02em; color: var(--ink); margin-bottom: 1rem; }
+  .featured-excerpt { font-size: 1.1rem; color: #3a4a40; line-height: 1.7; font-style: italic; border-left: 3px solid var(--forest); padding-left: 1.25rem; margin-bottom: 1.5rem; }
+  .tour-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1.5rem; border-top: 1px solid #b8ccd0; padding-top: 1.5rem; }
+  .tour-stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--forest); line-height: 1; }
+  .tour-stat-lbl { font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-top: 0.2rem; }
+  .featured-image { aspect-ratio: 4/3; background: linear-gradient(145deg, #3a6b4a, #1e3d28); display: flex; align-items: center; justify-content: center; }
+  .read-link { display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--forest); text-decoration: none; border-bottom: 1px solid var(--forest); padding-bottom: 1px; transition: color 0.2s; }
+  .read-link:hover { color: var(--leaf); }
+
+  .section { padding: 4rem 5vw; }
+  .section-alt { background: var(--warm); }
+  .section-header { display: flex; align-items: baseline; gap: 1.25rem; margin-bottom: 2.5rem; border-bottom: 2px solid var(--ink); padding-bottom: 0.75rem; flex-wrap: wrap; }
+  .section-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; letter-spacing: 0.05em; }
+  .section-header span { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
+  .section-header .see-all { margin-left: auto; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--forest); text-decoration: none; border-bottom: 1px solid var(--forest); }
+
+  .posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem 2rem; }
+  .post-card { cursor: pointer; transition: transform 0.25s; }
+  .post-card:hover { transform: translateY(-5px); }
+  .post-card:hover .post-title { color: var(--forest); }
+  .post-thumb { aspect-ratio: 3/2; margin-bottom: 1rem; overflow: hidden; position: relative; }
+  .post-thumb-bg { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 4.5rem; color: rgba(255,255,255,0.12); user-select: none; }
+  .post-thumb::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 50%); }
+  .post-thumb .tag-chip { position: absolute; bottom: 0.6rem; left: 0.6rem; z-index: 1; font-family: 'Space Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; background: var(--sun); color: var(--ink); padding: 0.2rem 0.5rem; }
+  .bg-family { background: linear-gradient(135deg, #2d5a3d, #4a8c5c); }
+  .bg-guide  { background: linear-gradient(135deg, #205060, #3a8090); }
+  .post-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.02em; line-height: 1.1; margin-bottom: 0.5rem; transition: color 0.2s; }
+  .post-excerpt { font-size: 0.95rem; color: #5a5850; line-height: 1.55; font-style: italic; }
+  .post-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 0.7rem; padding-top: 0.6rem; border-top: 1px solid var(--rule); }
+  .post-date, .post-read-time { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: var(--muted); letter-spacing: 0.07em; }
+
+  .guide-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .guide-card { border: 2px solid var(--rule); padding: 1.75rem; display: flex; gap: 1.5rem; align-items: flex-start; background: var(--paper); transition: border-color 0.2s, box-shadow 0.2s; cursor: pointer; text-decoration: none; color: inherit; }
+  .guide-card:hover { border-color: var(--forest); box-shadow: 4px 4px 0 var(--forest); }
+  .guide-icon { font-size: 2.2rem; flex-shrink: 0; line-height: 1; width: 2.8rem; text-align: center; }
+  .guide-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.03em; margin-bottom: 0.3rem; }
+  .guide-desc { font-size: 0.95rem; color: #5a5850; line-height: 1.5; font-style: italic; }
+
+  .inspiration { background: var(--sun); padding: 4rem 5vw; border-top: 3px solid var(--ink); border-bottom: 3px solid var(--ink); text-align: center; }
+  .inspiration blockquote { font-family: 'Crimson Pro', serif; font-style: italic; font-size: clamp(1.6rem, 4vw, 2.8rem); line-height: 1.35; color: var(--ink); max-width: 22ch; margin: 0 auto 1.5rem; }
+  .inspiration cite { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: #5a4010; }
+
+  .solo-strip { background: var(--ink); color: var(--paper); padding: 3.5rem 5vw; }
+  .solo-strip .section-header { border-bottom-color: #3a3830; }
+  .solo-strip .section-header h2 { color: var(--paper); }
+  .solo-strip .section-header span { color: #5a5850; }
+  .solo-strip .section-header .see-all { color: var(--sun); border-color: var(--sun); }
+  .solo-list { display: flex; flex-direction: column; }
+  .solo-item { display: grid; grid-template-columns: auto 1fr auto; gap: 2rem; align-items: center; padding: 1.25rem 0; border-bottom: 1px solid #2a2820; cursor: pointer; transition: padding-left 0.2s; text-decoration: none; color: inherit; }
+  .solo-item:last-child { border-bottom: none; }
+  .solo-item:hover { padding-left: 0.5rem; }
+  .solo-item:hover .solo-title { color: var(--sun); }
+  .solo-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: #2a2820; line-height: 1; transition: color 0.2s; min-width: 2.5rem; }
+  .solo-item:hover .solo-num { color: var(--forest); }
+  .solo-category { font-family: 'Space Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6a6858; margin-bottom: 0.3rem; }
+  .solo-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.02em; line-height: 1.05; transition: color 0.2s; }
+  .solo-date { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: #5a5850; letter-spacing: 0.06em; white-space: nowrap; }
+
+  .newsletter { padding: 5rem 5vw; text-align: center; border-top: 2px solid var(--rule); }
+  .newsletter .eyebrow { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--forest); margin-bottom: 0.75rem; }
+  .newsletter h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 6vw, 5rem); letter-spacing: 0.04em; margin-bottom: 0.5rem; }
+  .newsletter p { color: var(--muted); font-style: italic; margin-bottom: 2rem; font-size: 1.1rem; }
+  .email-form { display: flex; max-width: 480px; margin: 0 auto; }
+  .email-form input { flex: 1; padding: 0.85rem 1.25rem; border: 2px solid var(--ink); border-right: none; background: var(--paper); font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; outline: none; color: var(--ink); }
+  .email-form input::placeholder { color: var(--muted); }
+  .email-form button { padding: 0.85rem 1.5rem; background: var(--forest); color: var(--paper); border: 2px solid var(--forest); font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
+  .email-form button:hover { background: var(--leaf); border-color: var(--leaf); }
+
+  @media (max-width: 900px) {
+    .mission { grid-template-columns: 1fr; gap: 2.5rem; }
+    .featured-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .posts-grid { grid-template-columns: repeat(2, 1fr); }
+    .guide-grid { grid-template-columns: 1fr; }
+    .solo-item { grid-template-columns: auto 1fr; }
+    .solo-date { display: none; }
+  }
+  @media (max-width: 600px) {
+    .posts-grid { grid-template-columns: 1fr; }
+    .email-form { flex-direction: column; }
+    .email-form input { border-right: 2px solid var(--ink); border-bottom: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ticker"><div class="ticker-inner"><span>Families belong outside</span><span>Latest tour: 5 days in the Loire Valley</span><span>Ages 4–14 welcome on these routes</span><span>No lycra required</span><span>Cargo bike friendly</span><span>Families belong outside</span><span>Latest tour: 5 days in the Loire Valley</span><span>Ages 4–14 welcome on these routes</span><span>No lycra required</span><span>Cargo bike friendly</span></div></div>
+
+<header>
+  <div class="header-top">
+    <div class="issue-info">Family Cycle Touring</div>
+    <div class="issue-info">Est. 2026</div>
+    <div class="issue-info">Adventures on two wheels</div>
+  </div>
+  <div class="masthead">
+    <h1>Tyre Tracks</h1>
+    <span class="sub">Family Cycle Touring</span>
+    <p class="tagline">On the road, in the wild, together — one pedal stroke at a time</p>
+  </div>
+  <nav>
+    <a href="index.html" class="active">Home</a>
+    <a href="tour-report.html">Family Tours</a>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="solo-ride.html">Solo Rides</a>
+    <a href="about.html">About</a>
+  </nav>
+</header>
+
+<div class="mission">
+  <div>
+    <div class="mission-eyebrow">Why this blog exists</div>
+    <h2>Families belong <em>outside.</em> On bikes. On adventures.</h2>
+    <p>I started cycling with my kids because I believed it would change us. It did. This blog is my attempt to pass that on — honest accounts of family tours, practical guides for getting started, and the occasional solo ride to remind myself why I fell in love with cycling in the first place.</p>
+    <a href="about.html" class="mission-cta">Read our story →</a>
+  </div>
+  <div class="mission-visual">
+    <svg viewBox="0 0 380 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 240 Q190 210 380 240" stroke="#4a8c5c" stroke-width="1.5" fill="none" opacity="0.4"/>
+      <ellipse cx="290" cy="210" rx="38" ry="38" stroke="#7ab888" stroke-width="2.5" opacity="0.7"/>
+      <ellipse cx="214" cy="210" rx="38" ry="38" stroke="#7ab888" stroke-width="2.5" opacity="0.7"/>
+      <line x1="214" y1="210" x2="290" y2="210" stroke="#7ab888" stroke-width="2.5" opacity="0.7"/>
+      <line x1="252" y1="210" x2="258" y2="165" stroke="#7ab888" stroke-width="2.5" opacity="0.7"/>
+      <line x1="258" y1="165" x2="282" y2="162" stroke="#7ab888" stroke-width="2.5" opacity="0.7"/>
+      <line x1="252" y1="210" x2="238" y2="180" stroke="#7ab888" stroke-width="2.5" opacity="0.7"/>
+      <line x1="238" y1="180" x2="258" y2="165" stroke="#7ab888" stroke-width="2.5" opacity="0.7"/>
+      <circle cx="268" cy="152" r="13" fill="#4a8c5c" opacity="0.7"/>
+      <line x1="268" y1="165" x2="265" y2="185" stroke="#7ab888" stroke-width="2.5" opacity="0.7"/>
+      <rect x="195" y="195" width="15" height="20" rx="2" fill="#2d5a3d" opacity="0.6"/>
+      <rect x="295" y="195" width="15" height="20" rx="2" fill="#2d5a3d" opacity="0.6"/>
+      <ellipse cx="115" cy="218" rx="28" ry="28" stroke="#e8a020" stroke-width="2" opacity="0.8"/>
+      <ellipse cx="59" cy="218" rx="28" ry="28" stroke="#e8a020" stroke-width="2" opacity="0.8"/>
+      <line x1="59" y1="218" x2="115" y2="218" stroke="#e8a020" stroke-width="2" opacity="0.8"/>
+      <line x1="87" y1="218" x2="91" y2="183" stroke="#e8a020" stroke-width="2" opacity="0.8"/>
+      <line x1="91" y1="183" x2="108" y2="181" stroke="#e8a020" stroke-width="2" opacity="0.8"/>
+      <line x1="87" y1="218" x2="76" y2="195" stroke="#e8a020" stroke-width="2" opacity="0.8"/>
+      <line x1="76" y1="195" x2="91" y2="183" stroke="#e8a020" stroke-width="2" opacity="0.8"/>
+      <circle cx="100" cy="171" r="10" fill="#e8a020" opacity="0.8"/>
+      <path d="M93 168 Q100 160 107 168" stroke="#ffd060" stroke-width="1.5" fill="none" opacity="0.8"/>
+      <rect x="305" y="200" width="50" height="28" rx="3" stroke="#4a8c5c" stroke-width="1.5" fill="#1e3d28" opacity="0.5"/>
+      <ellipse cx="320" cy="230" rx="10" ry="10" stroke="#4a8c5c" stroke-width="1.5" opacity="0.5"/>
+      <ellipse cx="345" cy="230" rx="10" ry="10" stroke="#4a8c5c" stroke-width="1.5" opacity="0.5"/>
+      <circle cx="330" cy="208" r="7" fill="#e8a020" opacity="0.6"/>
+      <circle cx="330" cy="55" r="22" fill="#e8a020" opacity="0.25"/>
+      <circle cx="330" cy="55" r="14" fill="#e8a020" opacity="0.4"/>
+      <path d="M0 200 Q60 130 120 180 Q180 120 240 170 Q300 110 380 160" stroke="#3a6b4a" stroke-width="1.5" fill="none" opacity="0.3"/>
+    </svg>
+  </div>
+</div>
+
+<!-- FEATURED TOUR -->
+<section class="featured-tour">
+  <div class="featured-inner">
+    <div>
+      <div class="featured-label">Featured Family Tour</div>
+      <div class="featured-title">Your featured tour title goes here</div>
+      <p class="featured-excerpt">A short, evocative teaser for your best tour. Write in your own voice — what made this trip memorable? What would make another family want to read on?</p>
+      <a href="tour-report.html" class="read-link">Read the full tour account →</a>
+      <div class="tour-stats">
+        <div><div class="tour-stat-num">—</div><div class="tour-stat-lbl">days riding</div></div>
+        <div><div class="tour-stat-num">—</div><div class="tour-stat-lbl">km total</div></div>
+        <div><div class="tour-stat-num">—</div><div class="tour-stat-lbl">kids' ages</div></div>
+      </div>
+    </div>
+    <div class="featured-image">
+      <svg viewBox="0 0 320 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="320" height="240" fill="#1e3d28"/>
+        <path d="M0 160 Q80 140 160 155 Q240 170 320 150" fill="#2d5a7a" opacity="0.5"/>
+        <rect x="100" y="80" width="120" height="70" fill="#2a4a35" opacity="0.7"/>
+        <rect x="95" y="65" width="20" height="30" fill="#2a4a35" opacity="0.7"/>
+        <rect x="205" y="65" width="20" height="30" fill="#2a4a35" opacity="0.7"/>
+        <polygon points="105,65 115,45 125,65" fill="#2a4a35" opacity="0.7"/>
+        <polygon points="205,65 215,45 225,65" fill="#2a4a35" opacity="0.7"/>
+        <ellipse cx="60" cy="110" rx="18" ry="30" fill="#2d5a3d" opacity="0.6"/>
+        <ellipse cx="260" cy="105" rx="15" ry="25" fill="#2d5a3d" opacity="0.6"/>
+        <text x="160" y="210" font-family="Georgia,serif" font-size="11" fill="#7ab888" opacity="0.5" text-anchor="middle" font-style="italic">Add your photo here</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- FAMILY TOUR POSTS -->
+<section class="section">
+  <div class="section-header">
+    <h2>Family Tour Reports</h2>
+    <span>Honest accounts, kids included</span>
+    <a href="tour-report.html" class="see-all">All tours →</a>
+  </div>
+  <div class="posts-grid">
+    <a href="tour-report.html" class="post-card" style="text-decoration:none;color:inherit;">
+      <div class="post-thumb"><div class="post-thumb-bg bg-family">🏕️</div><span class="tag-chip">Family Tour</span></div>
+      <div class="post-title">Your first tour report title</div>
+      <p class="post-excerpt">A one or two sentence teaser. What happened? What did the kids think? What made it worth writing about?</p>
+      <div class="post-footer"><span class="post-date">Date</span><span class="post-read-time">— min</span></div>
+    </a>
+    <a href="tour-report.html" class="post-card" style="text-decoration:none;color:inherit;">
+      <div class="post-thumb"><div class="post-thumb-bg bg-family">🌊</div><span class="tag-chip">Family Tour</span></div>
+      <div class="post-title">Your second tour report title</div>
+      <p class="post-excerpt">A one or two sentence teaser. What happened? What did the kids think? What made it worth writing about?</p>
+      <div class="post-footer"><span class="post-date">Date</span><span class="post-read-time">— min</span></div>
+    </a>
+    <a href="tour-report.html" class="post-card" style="text-decoration:none;color:inherit;">
+      <div class="post-thumb"><div class="post-thumb-bg bg-family">⛰️</div><span class="tag-chip">Family Tour</span></div>
+      <div class="post-title">Your third tour report title</div>
+      <p class="post-excerpt">A one or two sentence teaser. What happened? What did the kids think? What made it worth writing about?</p>
+      <div class="post-footer"><span class="post-date">Date</span><span class="post-read-time">— min</span></div>
+    </a>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="inspiration">
+  <blockquote>"A child on a bicycle is a child discovering the world at exactly the right speed."</blockquote>
+  <cite>— Why I started this blog</cite>
+</div>
+
+<!-- GETTING STARTED -->
+<section class="section section-alt">
+  <div class="section-header">
+    <h2>Getting Started</h2>
+    <span>For families new to cycle touring</span>
+    <a href="getting-started.html" class="see-all">All guides →</a>
+  </div>
+  <div class="guide-grid">
+    <a href="getting-started.html" class="guide-card">
+      <div class="guide-icon">🚲</div>
+      <div><div class="guide-title">Your first guide title</div><p class="guide-desc">A short description of what this guide covers and who it's for.</p></div>
+    </a>
+    <a href="getting-started.html" class="guide-card">
+      <div class="guide-icon">🗺️</div>
+      <div><div class="guide-title">Your second guide title</div><p class="guide-desc">A short description of what this guide covers and who it's for.</p></div>
+    </a>
+    <a href="getting-started.html" class="guide-card">
+      <div class="guide-icon">🎒</div>
+      <div><div class="guide-title">Your third guide title</div><p class="guide-desc">A short description of what this guide covers and who it's for.</p></div>
+    </a>
+    <a href="getting-started.html" class="guide-card">
+      <div class="guide-icon">🧒</div>
+      <div><div class="guide-title">Your fourth guide title</div><p class="guide-desc">A short description of what this guide covers and who it's for.</p></div>
+    </a>
+  </div>
+</section>
+
+<!-- SOLO RIDES -->
+<section class="solo-strip">
+  <div class="section-header">
+    <h2>Solo Rides</h2>
+    <span>When I ride alone</span>
+    <a href="solo-ride.html" class="see-all">All rides →</a>
+  </div>
+  <div class="solo-list">
+    <a href="solo-ride.html" class="solo-item">
+      <div class="solo-num">01</div>
+      <div><div class="solo-category">Category</div><div class="solo-title">Your first solo ride title</div></div>
+      <div class="solo-date">Date &nbsp;·&nbsp; — min</div>
+    </a>
+    <a href="solo-ride.html" class="solo-item">
+      <div class="solo-num">02</div>
+      <div><div class="solo-category">Category</div><div class="solo-title">Your second solo ride title</div></div>
+      <div class="solo-date">Date &nbsp;·&nbsp; — min</div>
+    </a>
+    <a href="solo-ride.html" class="solo-item">
+      <div class="solo-num">03</div>
+      <div><div class="solo-category">Category</div><div class="solo-title">Your third solo ride title</div></div>
+      <div class="solo-date">Date &nbsp;·&nbsp; — min</div>
+    </a>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter">
+  <div class="eyebrow">Stay in the saddle</div>
+  <h2>Join the journey</h2>
+  <p>One email when a new tour report or guide goes up. No noise, no sponsors, just honest cycling.</p>
+  <div class="email-form">
+    <input type="email" placeholder="your@email.com">
+    <button>Subscribe</button>
+  </div>
+</section>
+
+<footer>
+  <div><div class="footer-brand">Tyre Tracks</div><div class="footer-tagline">Family adventures on two wheels</div></div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="tour-report.html">Family Tours</a>
+    <a href="getting-started.html">Getting Started</a>
+    <a href="solo-ride.html">Solo Rides</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="footer-copy">© 2026 Tyre Tracks<br>All rights reserved</div>
+</footer>
+</body>
+</html>
